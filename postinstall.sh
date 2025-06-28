@@ -32,6 +32,10 @@ mkdir -p /opt
 rm -rf /opt/dashboard
 git clone https://github.com/Valoliin/rpi-postinstall-ubuntu-dashboard.git /opt/dashboard
 
+# Installation du support venv
+echo "🐍 Installation de python3-venv..."
+apt install -y python3-venv
+
 # Installation de Flask
 echo "🐍 Création d’un environnement virtuel pour Flask..."
 python3 -m venv /opt/dashboard/venv
