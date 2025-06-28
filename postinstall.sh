@@ -33,8 +33,11 @@ rm -rf /opt/dashboard
 git clone https://github.com/Valoliin/rpi-postinstall-ubuntu-dashboard.git /opt/dashboard
 
 # Installation de Flask
-echo "🐍 Installation de Flask..."
-pip3 install flask
+echo "🐍 Création d’un environnement virtuel pour Flask..."
+python3 -m venv /opt/dashboard/venv
+source /opt/dashboard/venv/bin/activate
+/opt/dashboard/venv/bin/pip install flask
+
 
 # Création du service systemd
 echo "🛠️ Création du service systemd pour le dashboard..."
