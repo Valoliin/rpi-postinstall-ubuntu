@@ -51,7 +51,7 @@ Description=Dashboard Raspberry Pi (Flask)
 After=network.target
 
 [Service]
-User=pi
+User=$USER
 WorkingDirectory=/opt/dashboard
 ExecStart=/opt/dashboard/venv/bin/python /opt/dashboard/app.py
 Restart=always
