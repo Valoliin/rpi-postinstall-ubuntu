@@ -42,6 +42,8 @@ python3 -m venv /opt/dashboard/venv
 source /opt/dashboard/venv/bin/activate
 /opt/dashboard/venv/bin/pip install flask
 
+# Détection de l'utilisateur principal (non root)
+USERNAME=$(logname)
 
 # Création du service systemd
 echo "🛠️ Création du service systemd pour le dashboard..."
