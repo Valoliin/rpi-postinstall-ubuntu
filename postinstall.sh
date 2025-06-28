@@ -15,10 +15,51 @@ apt update && apt upgrade -y
 echo "🧰 Installation des outils utiles..."
 apt install -y \
   wget git htop neofetch net-tools \
-  build-essential software-properties-common
+  build-essential software-properties-common python3-pip
 
-# Installation de l’environnement de bureau Ubuntu MATE
-echo "🖥️ Installation du bureau Ubuntu MATE..."
-apt install -y ubuntu-mate-desktop
+# Installation du bureau Ubuntu optimisé Raspberry Pi
+echo "🖥️ Installation du bureau Ubuntu Desktop (raspi optimisé)..."
+echo "ℹ️ Lors de l'installation, choisis **lightdm** si le système te le demande."
+apt install -y ubuntu-desktop-raspi
 
-echo "✅ Installation terminée ! Tu peux redémarrer avec : sudo reboot"
+# Installation de xpra
+echo "📺 Installation de xpra (avec support HTML5)..."
+apt install -y xpra
+
+# Récupération du dashboard depuis GitHub
+echo "🌐 Clonage du dashboard depuis GitHub..."
+mkdir -p /opt
+rm -rf /opt/dashboard
+git clone https://github.com/Valoliin/rpi-postinstall-ubuntu-dashboard.git /opt/dashboard
+
+# Installation de Flask
+echo "🐍 Installation de Flask..."
+pip3 install flask
+
+# Création du service systemd
+echo "🛠️ Création du service systemd pour le dashboard..."
+cat << 'EOF' > /etc/systemd/system/dashboard.service
+[Unit]
+Description=Dashboard Raspberry Pi (Flask)
+After=network.target
+
+[Service]
+User=pi
+WorkingDirectory=/opt/dashboard
+ExecStart=/usr/bin/python3 /opt/dashboard/app.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Activation du service
+systemctl daemon-reexec
+systemctl daemon-reload
+systemctl enable dashboard.service
+systemctl start dashboard.service
+
+echo "✅ Installation terminée !"
+echo "🌍 Accède au dashboard sur : http://<IP_DE_TA_PI>:5000"
+echo "📎 Place tes icônes PNG dans /opt/dashboard/static/ si besoin"
+echo "🔁 Redémarre si nécessaire avec : sudo reboot"
