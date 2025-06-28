@@ -49,7 +49,7 @@ After=network.target
 [Service]
 User=pi
 WorkingDirectory=/opt/dashboard
-ExecStart=/usr/bin/python3 /opt/dashboard/app.py
+ExecStart=/opt/dashboard/venv/bin/python /opt/dashboard/app.py
 Restart=always
 
 [Install]
